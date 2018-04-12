@@ -17,7 +17,7 @@ public class IconOnPoint : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (examineObjectScript.examining)
+        if (examineObjectScript.examining || TextOnObject.readObjects > 0)
         {
             icon.SetActive(false);
             return;

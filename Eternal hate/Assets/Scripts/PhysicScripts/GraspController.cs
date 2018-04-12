@@ -40,6 +40,9 @@ public class GraspController : MonoBehaviour {
 	
     void Update()
     {
+        if (TextOnObject.readObjects > 0) return;
+
+
         GameObject gameObject = CastRay();
     
         if (Input.GetButtonDown("Action"))
@@ -94,7 +97,8 @@ public class GraspController : MonoBehaviour {
         if(Physics.Raycast(ray, out hit, graspDistance))
         {
             if (hit.collider.gameObject.GetComponent<Rigidbody>() != null 
-                && hit.collider.gameObject.GetComponent<Rigidbody>().isKinematic == false)
+                && hit.collider.gameObject.GetComponent<Rigidbody>().isKinematic == false
+                && hit.collider.gameObject.tag == "Grasp")
             {
                 return hit.collider.gameObject;
             }
@@ -111,7 +115,7 @@ public class GraspController : MonoBehaviour {
         }
         if (rigidbody.useGravity != false) rigidbody.useGravity = false;
 
-        Vector3 targetPoint = transform.position + transform.forward * holdDistance;
+        Vector3 targetPoint = cam.transform.position + cam.transform.forward * holdDistance;
 
         Vector3 force = targetPoint - rigidbody.transform.position;
         rigidbody.velocity = force.normalized * rigidbody.velocity.magnitude;

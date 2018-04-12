@@ -9,7 +9,6 @@ public class ExamineObject : MonoBehaviour {
     public float examineDistance = 1;
     public float activeDistance = 3;
     public float rotationSpeedMultiplier = 1;
-    public GameObject darkBackground;
 
     private Camera cam;
     private FirstPersonController controller;
@@ -64,8 +63,6 @@ public class ExamineObject : MonoBehaviour {
         Vector3 targetPosition = cam.transform.position + cam.transform.forward.normalized * examineDistance;
         examinedObject.transform.position = targetPosition;
         examinedObject.GetComponent<Rigidbody>().isKinematic = true;
-
-        if (darkBackground != null) darkBackground.SetActive(true);
     }
 
     private void StopExamining()
@@ -78,8 +75,6 @@ public class ExamineObject : MonoBehaviour {
         examinedObject.transform.rotation = startingRotation;
 
         examinedObject = null;
-
-        if(darkBackground != null) darkBackground.SetActive(false);
     }
 
     private void RotateToMouse(Transform transform)
@@ -99,7 +94,8 @@ public class ExamineObject : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, activeDistance))
         {
             if (hit.collider.gameObject.GetComponent<Rigidbody>() != null
-                && hit.collider.gameObject.GetComponent<Rigidbody>().isKinematic == false)
+                && hit.collider.gameObject.GetComponent<Rigidbody>().isKinematic == false
+                && hit.collider.gameObject.tag == "Examine")
             {
                 return hit.collider.gameObject;
             }
